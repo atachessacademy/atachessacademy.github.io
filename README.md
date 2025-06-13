@@ -1,1 +1,1 @@
-# atachess
+# ATA Chess Academy
