@@ -8,28 +8,40 @@ on:
 jobs:
   generate-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-      
+      with:
+        persist-credentials: false # prevent using the default token
+        fetch-depth: 0
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        
+
     - name: Install dependencies
       run: |
         pip install pillow requests beautifulsoup4
-        
+
     - name: Run generate_rolls.py
       run: python generate_rolls.py
-      
-    - name: Upload generated images
+
+    - name: Commit and push generated image folders
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add images/roll*
+        git commit -m "Auto-generate roll images on push"
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+      continue-on-error: true  # Avoid workflow failure if no changes were made
+
+    - name: Upload generated images as artifact
       uses: actions/upload-artifact@v4
       with:
         name: roll-images
         path: images/roll*/
-        
+
     - name: Deploy to GitHub Pages (if needed)
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
