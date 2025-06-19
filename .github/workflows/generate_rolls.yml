@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        persist-credentials: false # prevent using the default token
+        persist-credentials: false
         fetch-depth: 0
 
     - name: Set up Python
@@ -21,8 +21,16 @@ jobs:
         python-version: '3.9'
 
     - name: Install dependencies
+      run: pip install pillow requests beautifulsoup4
+
+    - name: Delete old images folder, commit and push
       run: |
-        pip install pillow requests beautifulsoup4
+        rm -rf images/
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git rm -rf images/ || true
+        git commit -m "Remove old images folder" || echo "Nothing to commit"
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
 
     - name: Run generate_rolls.py
       run: python generate_rolls.py
@@ -34,7 +42,6 @@ jobs:
         git add *
         git commit -m "Auto-generate roll images and web on push"
         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
-      continue-on-error: true  # Avoid workflow failure if no changes were made
 
     - name: Upload generated images as artifact
       uses: actions/upload-artifact@v4
