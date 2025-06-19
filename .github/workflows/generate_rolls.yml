@@ -31,8 +31,8 @@ jobs:
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add images/roll*
-        git commit -m "Auto-generate roll images on push"
+        git add *
+        git commit -m "Auto-generate roll images and web on push"
         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
       continue-on-error: true  # Avoid workflow failure if no changes were made
 
