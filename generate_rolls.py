@@ -41,7 +41,7 @@ def generate_roll_html(roll_id):
 
     # Duplicate images for seamless animation
     doubled_images = images
-    return "\n" + "\n".join(f'                        <img src="{folder}/{img}">' for img in doubled_images)
+    return "\n" + "\n".join(f'                        <img src="{folder}/{img}" alt="Achievement" loading="eager">' for img in doubled_images)
 
 
 # Read the index template
