@@ -247,11 +247,11 @@ body {
 
 /* Slower animations to see all images */
 .roll-left-to-right .roll-track {
-    animation: scrollLeftSlow 60s linear infinite;
+    animation: scrollLeftSlow 90s linear infinite;
 }
 
 .roll-right-to-left .roll-track {
-    animation: scrollRightSlow 50s linear infinite;
+    animation: scrollRightSlow 90s linear infinite;
 }
 
 .roll-track img {
@@ -310,27 +310,9 @@ body {
     animation-iteration-count: infinite;
 }
 
-/* Temporary debug styles */
-.roll-track {
-    border: 2px solid red; /* See the container */
-    background: yellow; /* See the background */
-}
-
 .roll-track img {
     border: 1px solid blue; /* See each image */
     min-width: 200px; /* Make images more visible */
-}
-
-/* Count images - add this temporarily */
-.roll-track::after {
-    content: attr(data-count);
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: red;
-    color: white;
-    padding: 5px;
-    z-index: 100;
 }
 
 /* Pause animation on hover */
