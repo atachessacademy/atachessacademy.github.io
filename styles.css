@@ -206,7 +206,7 @@ body {
 }
 
 /* Achievements Section - Rolling Images */
-/* ========== ACHIEVEMENTS SECTION - SHOW ALL IMAGES ========== */
+/* ========== ACHIEVEMENTS SECTION - START WITH VISIBLE IMAGES ========== */
 .achievements {
     padding: 80px 0;
     background: #f8f9fa;
@@ -239,26 +239,25 @@ body {
 .roll-track {
     display: flex;
     height: 100%;
-    width: max-content; /* This ensures all images fit */
+    width: max-content;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    white-space: nowrap; /* Prevents wrapping */
 }
 
-/* Slower animations to see all images */
+/* ROLLS START WITH IMAGES VISIBLE */
 .roll-left-to-right .roll-track {
-    animation: scrollLeftSlow 90s linear infinite;
+    animation: scrollLeftWithStart 80s linear infinite;
+    transform: translateX(0); /* Start with images visible */
 }
 
 .roll-right-to-left .roll-track {
-    animation: scrollRightSlow 90s linear infinite;
+    animation: scrollRightWithStart 90s linear infinite;
+    transform: translateX(-50%); /* Start with images visible */
 }
 
 .roll-track img {
     height: 100%;
     width: auto;
-    min-width: 150px; /* Minimum width for each image */
-    max-width: 300px; /* Maximum width for each image */
     object-fit: cover;
     margin-right: 15px;
     border-radius: 8px;
@@ -267,22 +266,62 @@ body {
     cursor: pointer;
 }
 
-/* Updated keyframes for complete scroll */
-@keyframes scrollLeftSlow {
+.roll-track img:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    position: relative;
+}
+
+/* Updated keyframes - start with visible images */
+@keyframes scrollLeftWithStart {
     0% {
-        transform: translateX(100vw);
+        transform: translateX(0); /* Start with images visible */
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%); /* End position */
     }
 }
 
-@keyframes scrollRightSlow {
+@keyframes scrollRightWithStart {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-50%); /* Start with images visible */
     }
     100% {
-        transform: translateX(100vw);
+        transform: translateX(0); /* End position */
+    }
+}
+
+/* Pause on Hover */
+.image-roll:hover .roll-track {
+    animation-play-state: paused;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .image-roll {
+        height: 150px;
+    }
+    
+    .roll-left-to-right .roll-track {
+        animation-duration: 60s;
+    }
+    
+    .roll-right-to-left .roll-track {
+        animation-duration: 70s;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-roll {
+        height: 120px;
+    }
+    
+    .roll-left-to-right .roll-track {
+        animation-duration: 50s;
+    }
+    
+    .roll-right-to-left .roll-track {
+        animation-duration: 60s;
     }
 }
 
